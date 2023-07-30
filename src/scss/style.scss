@@ -1,8 +1,11 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+@font-face {
+  font-family: 'SUITE-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
 
+/* reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -20,7 +23,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
+  font-family: 'SUITE-Regular';
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -46,9 +49,6 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
-
-
 input{ 
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -58,7 +58,7 @@ input{
   -webkit-box-shadow: none;
           box-shadow: none;
   vertical-align: top;
-  font-family: 'Noto Sans KR', sans-serif; 
+  font-family: 'SUITE-Regular', sans-serif; 
 
   &::-ms-clear { display: none; }
 
@@ -74,42 +74,49 @@ input{
       -webkit-user-select: none; 
          -moz-user-select: none; 
           -ms-user-select: none;
-      display: inline-block; 
-      position: relative; padding-left: 32px; line-height: 45px;
-
-      &:before { 
-        content: ''; 
-        position: absolute; top: 50%; left: 0; transform: translateY(-50%); 
-        width: 24px; height: 24px; 
-        background: #fff; border: 1px solid #63a9f5; border-radius: 50%; 
-        line-height: 25px; text-align: center; 
-      }
-      &::after { 
-        content: ''; 
-        position: absolute; top: 50%; left: 4px; transform: translateY(-50%); 
-        width: 18px; height: 18px; 
-        background: #63a9f5; border-radius: 50%; 
-        line-height: 25px; text-align: center; 
-        opacity: 0;
-      }
+      display: inline-block; position: relative; padding: 8px 12px; margin: 0;
+      border: 1px solid #c5ccd6; border-radius: 8px;
+      font-size: 14px; font-weight: 400; color: #444;
+      transition: background .2s, color .2s;
     }
 
     &:checked {
-      & + label:after { opacity: 1; }
+      & + label{ background-color: #444; color: #fff; }
     }
   } 
 }
 
 
+/* common */
+*{ box-sizing: border-box; }
+body{ background-color: #333; }
+.container{ padding: 40px 100px; }
+
 
 /* 필터 */
-.filter{ margin-bottom: 50px; border: 1px solid red; }
+.filter{ 
+  height: 280px; margin-bottom: 40px; padding: 30px 40px; background-color: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  .title{ margin-bottom: 10px; font-size: 22px; font-weight: 600; line-height: 1.5; } 
+  ul {
+    li{
+      .tit{ display: block; margin-bottom: 5px; font-size: 15px; font-weight: 500; }
+      & + li{ margin-top: 10px; }
+    }
+  }
+  .btn-search{ cursor: pointer; display: block; margin-top: 15px; padding: 10px 30px; border-radius: 8px; border: none; background-color: #444; font-size: 14px; color: #fff; } 
+}
 
 
-// .list{ border: 1px solid #000; }
-.list table{  } 
-.list table tr{  } 
-.list table th,
-.list table td { padding: 10px; border: 1px solid #000; }
-.list table td{ text-align: right;}
-.list table td[data-name="code"] { text-align: center; }
+.list {
+  height: calc(100vh - 280px - 120px);
+  padding: 40px; background-color: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  .inwrap{ overflow: auto; height: 100%; }
+  table{
+    width: 100%; border: 1px solid #c5ccd6; border-radius: 8px;
+    tr{ border-bottom: 1px solid #c5ccd6; } 
+    th { padding: 10px; border-right: 1px solid #c5ccd6; background-color: #e0e5ec; }
+    td { padding: 10px; border-right: 1px solid #c5ccd6; text-align: right;
+      &[data-name="code"] { text-align: center; }
+    }
+  } 
+}

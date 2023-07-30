@@ -7,6 +7,7 @@ const filterList = function () {
   const $filter = $container.querySelector('.filter');
   const $filterUl = $filter.querySelector('ul');
   const $filterBtn = $filter.querySelector('.btn-search');
+  const filterInputsObj = {};
 
   const $list = $container.querySelector('.list');
   const $listTable = $list.querySelector('table');
@@ -20,7 +21,7 @@ const filterList = function () {
       
       const $filterLi = document.createElement('li');
       let $filterContents = '';
-      $filterContents += `<strong class="title">${relationRow.title}</strong>`;
+      $filterContents += `<strong class="tit">${relationRow.title}</strong>`;
       $filterContents += `<div class="conditions">`;
       for (let j = 0; j < relationRow.conditions.length; j++) {
         const condition = relationRow.conditions[j];
@@ -32,7 +33,7 @@ const filterList = function () {
         conditionState = conditionState.replace(/전체/g, 'true');
         
         $filterContents += `  <span class="checkbox">`;
-        $filterContents += `    <input type="checkbox" title="${relationRow.title}" name="${relationRow.name}" id="${relationRow.name}_${j}" value="${conditionState}">`;
+        $filterContents += `    <input type="checkbox" title="${relationRow.title}" name="${condition == '전체' ? relationRow.name+'_all' : relationRow.name}" id="${relationRow.name}_${j}" value="${conditionState}">`;
         $filterContents += `    <label for="${relationRow.name}_${j}">${condition}</label>`;
         $filterContents += `  </span>`;
       }
@@ -40,6 +41,42 @@ const filterList = function () {
 
       $filterLi.innerHTML = $filterContents;
       $filterUl.appendChild($filterLi);
+    }
+
+    filterInputsObj.growth = { 
+      all: $filter.querySelector('input[name="growth_all"]'), 
+      array: $filter.querySelectorAll('input[name="growth"]') 
+    };
+    filterInputsObj.competition = { 
+      all: $filter.querySelector('input[name="competition_all"]'), 
+      array: $filter.querySelectorAll('input[name="competition"]') 
+    };
+    filterInputsObj.directorsamount = { 
+      all: $filter.querySelector('input[name="directorsamount_all"]'), 
+      array: $filter.querySelectorAll('input[name="directorsamount"]') 
+    };
+
+    const onClickInput = function (e) {
+      const $target = e.currentTarget;
+      const name = $target.name;
+
+      const $checkedInput = $filter.querySelectorAll(`input[name="${name}"]:checked`);
+      filterInputsObj[name].all.checked = filterInputsObj.growth.array.length == $checkedInput.length ? true : false;
+    }
+
+    const onClickSelectAll = function (e) {
+      const $target = e.currentTarget;
+      const name = $target.name.replace('_all', '');
+
+      filterInputsObj[name].array.forEach(item => item.checked = $target.checked); 
+    }
+
+    for (const key in filterInputsObj) {
+      if (Object.hasOwnProperty.call(filterInputsObj, key)) {
+        const values = filterInputsObj[key];
+        values.array.forEach(item => item.addEventListener('click', onClickInput));
+        values.all.addEventListener('click', onClickSelectAll);
+      }
     }
   }
 
