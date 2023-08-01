@@ -90,17 +90,19 @@ input{
 /* common */
 *{ box-sizing: border-box; }
 body{ background-color: #333; }
-.container{ padding: 40px 100px; }
 
+.search-list{ display: flex; flex-direction: column; height: calc(100vh - 80px); margin: 40px 100px; }
 
 /* 필터 */
 .filter{ 
-  height: 280px; margin-bottom: 40px; padding: 30px 40px; background-color: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  .title{ margin-bottom: 10px; font-size: 22px; font-weight: 600; line-height: 1.5; } 
+  height: 320px; margin-bottom: 40px; padding: 30px 40px; background-color: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  legend{ margin-bottom: 10px; font-size: 15px; color: #666; }
+  .title{ margin-bottom: 10px; font-size: 15px; font-weight: 600; line-height: 1.5; } 
   ul {
     li{
       .tit{ display: block; margin-bottom: 5px; font-size: 15px; font-weight: 500; }
       & + li{ margin-top: 10px; }
+      label{ margin-right: 5px; }
     }
   }
   .btn-search{ cursor: pointer; display: block; margin-top: 15px; padding: 10px 30px; border-radius: 8px; border: none; background-color: #444; font-size: 14px; color: #fff; } 
@@ -108,8 +110,7 @@ body{ background-color: #333; }
 
 
 .list {
-  height: calc(100vh - 280px - 120px);
-  padding: 40px; background-color: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  height: calc(100% - 360px); padding: 40px; background-color: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   .inwrap{ overflow: auto; height: 100%; }
   table{
     width: 100%; border: 1px solid #c5ccd6; border-radius: 8px;

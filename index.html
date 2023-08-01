@@ -9,21 +9,25 @@
 </head>
 <body>
   <div class="container">
-    <section>
+    <section class="search-list">
       <div class="filter">
-        <!-- <h2 class="title">검색하기</h2> -->
-        <ul></ul>
-        <button type="button" id="btn-search" class="btn-search">검색</button>
+        <form id="filter">
+          <fildset>
+            <legend>검색 조건을 설정해 주세요.</legend>
+            <ul></ul>
+          </fildset>
+          <button type="submit" id="btn-search" class="btn-search">검색</button>
+        </form>
       </div>
       <div class="list">
         <div class="inwrap">
           <table>
             <thead>
               <tr>
-                <th tda>코드</th>
-                <th tda>성장률</th>
-                <th tda>경쟁강도</th>
-                <th tda>처장조제액</th>
+                <th>코드</th>
+                <th>성장률</th>
+                <th>경쟁강도</th>
+                <th>처장조제액</th>
               </tr>
             </thead>
             <tbody>
