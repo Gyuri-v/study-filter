@@ -1,5 +1,5 @@
-import relation from '../data/arrayRelation.json' assert { type: "json" };
-import datas from '../data/arrayData.json' assert { type: "json" };
+import relation from '../data/arrayRelation' assert { type: "json" };
+import datas from '../data/arrayData' assert { type: "json" };
 
 const filterList = function () {
   const $container = document.querySelector('.container');

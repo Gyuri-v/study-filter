@@ -1,4 +1,4 @@
-[
+const datas = [
   {
     "code": "A01A",
     "x": -1,

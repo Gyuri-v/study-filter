@@ -1,5 +1,6 @@
-import relation from '../data/arrayRelation.json' assert { type: "json" };
-import datas from '../data/arrayData.json' assert { type: "json" };
+// import relation from '../data/arrayRelation' assert { type: "json" };
+// import datas from '../data/arrayData' assert { type: "json" };
+
 
 function renderFilter (data, elem) {
   data.forEach((item, index) => {
@@ -57,12 +58,12 @@ function renderList (data, elem) {
 }
 
 function filterData (data, $form) {
-  const $inputSeleted = $form.querySelectorAll('input:checked');
-  const $inputAlls = $form.querySelectorAll('input[name*=all]');
+  const $inputsSeleted = $form.querySelectorAll('input:checked');
+  const $inputsAll = $form.querySelectorAll('input[name*=all]');
   let filteredData = [...data];
   let conditions = {};
   
-  $inputSeleted.forEach(item => {
+  $inputsSeleted.forEach(item => {
     const name = item.name;
     const value = item.value.split(',');
 
@@ -77,13 +78,12 @@ function filterData (data, $form) {
     }
   });
 
-  for (let i = 0; i < $inputAlls.length; i++) {
-    const $inputAll = $inputAlls[i];
+  for (let i = 0; i < $inputsAll.length; i++) {
+    const $inputAll = $inputsAll[i];
     const key = $inputAll.name.replace('_all', '');
 
     if ( !conditions[key] ) {
-      const $inputs = $form.querySelectorAll(`input[name*=${key}]`);
-      $inputs.forEach(item => item.click());
+      $inputAll.click();
     } else {
       const value = conditions[key];
 
@@ -115,10 +115,10 @@ const main = function () {
     const name = $target.name;
 
     const $inputs = $filterList.querySelectorAll(`input[name="${name}"]:not([name*="all"])`);
-    const $inputSeleted = $filterList.querySelectorAll(`input[name="${name}"]:checked`);
-    const $inputAll = $filterList.querySelector(`input[name="${name}_all"]`);
+    const $inputsSeleted = $filterList.querySelectorAll(`input[name="${name}"]:checked`);
+    const $inputsAll = $filterList.querySelector(`input[name="${name}_all"]`);
 
-    $inputAll.checked = $inputSeleted.length == $inputs.length ? true : false;
+    $inputsAll.checked = $inputsSeleted.length == $inputs.length ? true : false;
   }
 
   function onClickInputAll (e) {
@@ -130,59 +130,16 @@ const main = function () {
   }
 
   renderFilter(relation, $filterList);
-  $filterBtn.addEventListener('click', onClickBtnFilter);
-  $filterBtn.click();
 
   const $inputs = $filterList.querySelectorAll('input:not([name*=all])');
-  const $inputAlls = $filterList.querySelectorAll('input[name*=all]');
+  const $inputsAll = $filterList.querySelectorAll('input[name*=all]');
   $inputs.forEach(item => item.addEventListener('click', onClickInput))
-  $inputAlls.forEach(item => item.addEventListener('click', onClickInputAll))
+  $inputsAll.forEach(item => item.addEventListener('click', onClickInputAll));
+  $filterBtn.addEventListener('click', onClickBtnFilter);
+  $filterBtn.click();
 }
-
 window.addEventListener('load', main);
 
 
-
-
-
-
-// const onClickSelectAll = function (e) {
-//   const $target = e.currentTarget;
-//   const name = $target.name.replace('_all', '');
-
-//   filterInputsObj[name].array.forEach(item => item.checked = $target.checked); 
-// }
-
-// for (const key in filterInputsObj) {
-//   if (Object.hasOwnProperty.call(filterInputsObj, key)) {
-//     const values = filterInputsObj[key];
-//     values.array.forEach(item => item.addEventListener('click', onClickInput));
-//     values.all.addEventListener('click', onClickSelectAll);
-//   }
-// }
-
-
-
-/*
-
-data = 현재 상태(옵션의)
-비교하는 로직
-결과 = 상태값
-
-html 에는 어떤 데이터값도 넣지않음
-
-데이터변수를 관리 -> 렌더링은 뿌려만
-
-기능을 구분
-1. 필터링 영역 - 데이터 / 뿌려지는 분리
-2. 보여지는 영역 - 데이터 / 렌더링 분리
-
-!! 데이터 / 뿌려주는 영역 / 컨트롤 영역 분리해서 작업
-
-input 영역들 form > fildset + legend 으로 감싸기 -- 안에서 Li 묶고 -- submit 
-
-index.html 으로 열어서 볼 수 있도록
-
-처방조제액
-
-*/
+// onClick 이벤트들도 빼는게 좋은지
+// $inputsAll 이런 애들은 한번만 선언하고 넘겨주는게 좋은지

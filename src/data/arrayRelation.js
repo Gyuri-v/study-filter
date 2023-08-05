@@ -1,4 +1,4 @@
-[
+const relation = [
   {
     "title": "성장률",
     "name": "x",
