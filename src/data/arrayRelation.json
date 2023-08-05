@@ -1,11 +1,11 @@
 [
   {
     "title": "성장률",
-    "name": "growth",
+    "name": "x",
     "conditions": [
       { 
         "label": "0% 미만", 
-        "value": [0]
+        "value": ["-Infinity", 0]
       },
       { 
         "label": "0% 이상 ~ 10% 미만", 
@@ -21,13 +21,13 @@
       },
       { 
         "label": "30% 이상", 
-        "value": [30]
+        "value": [30, "Infinity"]
       }
     ]
   },
   {
     "title": "경쟁강도",
-    "name": "competition",
+    "name": "y",
     "conditions": [
       { 
         "label": "10 미만",
@@ -47,13 +47,13 @@
       },
       { 
         "label": "200 이상",
-        "value": [200]
+        "value": [200, "Infinity"]
       }
     ]
   },
   {
     "title": "처장조제액",
-    "name": "directorsamount",
+    "name": "sales",
     "conditions": [
       { 
         "label": "10억 미만",
@@ -73,7 +73,7 @@
       },
       { 
         "label": "300억 이상",
-        "value": [30000000000]
+        "value": [30000000000, "Infinity"]
       }
     ]
   }
