@@ -14,9 +14,7 @@ function renderFilter (data, elem) {
     $conditions.innerHTML = `
       <input type="checkbox" name="${item.name}_all" id="${item.name}_all">
       <label for="${item.name}_all">전체</label>
-    `
-
-    // const $inputAll = document.createElement('input');
+    `;
 
     item.conditions.forEach((condition, index) => {
       const $input = document.createElement('input');
@@ -59,12 +57,12 @@ function renderList (data, elem) {
 }
 
 function filterData (data, $form) {
-  const $selectedInputs = $form.querySelectorAll('input:checked');
+  const $inputSeleted = $form.querySelectorAll('input:checked');
+  const $inputAlls = $form.querySelectorAll('input[name*=all]');
   let filteredData = [...data];
   let conditions = {};
   
-
-  $selectedInputs.forEach(item => {
+  $inputSeleted.forEach(item => {
     const name = item.name;
     const value = item.value.split(',');
 
@@ -79,8 +77,14 @@ function filterData (data, $form) {
     }
   });
 
-  for (const key in conditions) {
-    if (Object.hasOwnProperty.call(conditions, key)) {
+  for (let i = 0; i < $inputAlls.length; i++) {
+    const $inputAll = $inputAlls[i];
+    const key = $inputAll.name.replace('_all', '');
+
+    if ( !conditions[key] ) {
+      const $inputs = $form.querySelectorAll(`input[name*=${key}]`);
+      $inputs.forEach(item => item.click());
+    } else {
       const value = conditions[key];
 
       filteredData = filteredData.filter(item => {
@@ -105,14 +109,57 @@ const main = function () {
     const filteredData = filterData(datas, $filterForm);
     renderList(filteredData, $listTable);
   }
-  
-  renderList(datas, $listTable);
+
+  function onClickInput (e) {
+    const $target = e.currentTarget;
+    const name = $target.name;
+
+    const $inputs = $filterList.querySelectorAll(`input[name="${name}"]:not([name*="all"])`);
+    const $inputSeleted = $filterList.querySelectorAll(`input[name="${name}"]:checked`);
+    const $inputAll = $filterList.querySelector(`input[name="${name}_all"]`);
+
+    $inputAll.checked = $inputSeleted.length == $inputs.length ? true : false;
+  }
+
+  function onClickInputAll (e) {
+    const $target = e.currentTarget;
+    const name = $target.name.replace('_all', '');
+
+    const $inputs = $filterList.querySelectorAll(`input[name="${name}"]:not([name*="all"])`);
+    $inputs.forEach(item => item.checked = $target.checked); 
+  }
+
   renderFilter(relation, $filterList);
   $filterBtn.addEventListener('click', onClickBtnFilter);
+  $filterBtn.click();
+
+  const $inputs = $filterList.querySelectorAll('input:not([name*=all])');
+  const $inputAlls = $filterList.querySelectorAll('input[name*=all]');
+  $inputs.forEach(item => item.addEventListener('click', onClickInput))
+  $inputAlls.forEach(item => item.addEventListener('click', onClickInputAll))
 }
 
 window.addEventListener('load', main);
 
+
+
+
+
+
+// const onClickSelectAll = function (e) {
+//   const $target = e.currentTarget;
+//   const name = $target.name.replace('_all', '');
+
+//   filterInputsObj[name].array.forEach(item => item.checked = $target.checked); 
+// }
+
+// for (const key in filterInputsObj) {
+//   if (Object.hasOwnProperty.call(filterInputsObj, key)) {
+//     const values = filterInputsObj[key];
+//     values.array.forEach(item => item.addEventListener('click', onClickInput));
+//     values.all.addEventListener('click', onClickSelectAll);
+//   }
+// }
 
 
 

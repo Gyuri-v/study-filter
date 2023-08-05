@@ -31,7 +31,7 @@
     "conditions": [
       { 
         "label": "10 미만",
-        "value": [0, 9]
+        "value": [0, 10]
       },
       { 
         "label": "10 이상 ~ 50 미만",
