@@ -43,6 +43,7 @@ function renderList (data, elem) {
   elem.innerHTML = '';
   data.forEach((item, index) => {
     const $tr = document.createElement('tr');
+    
 
     for (const key in item) {
       if (Object.hasOwnProperty.call(item, key)) {
@@ -143,3 +144,19 @@ window.addEventListener('load', main);
 
 // onClick 이벤트들도 빼는게 좋은지
 // $inputsAll 이런 애들은 한번만 선언하고 넘겨주는게 좋은지
+
+// * 리뷰
+// 초기 설정값 변경하고자 하면 -- 하면 전체가 클릭될 필요가 없지
+// 전체 일때는 나머지가 해제 되게끔
+// input의 체크될때마다 data를 따로 
+// - 랑 + infinity 로 퉁
+// all 따로 갖고 있지 않음 -- input cheked 가 아닌 all이 아닌것들로 / 하나로 해결하게끔
+// 파라미터로 돔 말고, conditions 를 보내고 가져와서 돔에 뿌려주는거는 다르게 
+// inputAll 을 안 쓰는 방향으로
+// renderFilte string 값만 return 되게 해서 innerHtml 을 안에서
+// dom 을 가져가지 않도록
+// elem 분리하고, 필터도 어떤 값이든 넣을 수 있게
+// 검색은 전체가 되게끔이 아니라 위의 상태값 그대로
+// _all 안쓰면 안생기게
+// hasOwnPropertys -> if ( values )
+// forEach -> 
