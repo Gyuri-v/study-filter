@@ -1,8 +1,7 @@
 // import relation from '../data/arrayRelation' assert { type: "json" };
 // import datas from '../data/arrayData' assert { type: "json" };
 
-
-function renderFilter (data, elem) {
+function renderFilter(data, elem) {
   data.forEach((item, index) => {
     const $li = document.createElement('li');
 
@@ -34,16 +33,15 @@ function renderFilter (data, elem) {
 
     $li.appendChild($title);
     $li.appendChild($conditions);
-    
+
     elem.appendChild($li);
   });
 }
 
-function renderList (data, elem) {
+function renderList(data, elem) {
   elem.innerHTML = '';
   data.forEach((item, index) => {
     const $tr = document.createElement('tr');
-    
 
     for (const key in item) {
       if (Object.hasOwnProperty.call(item, key)) {
@@ -58,44 +56,44 @@ function renderList (data, elem) {
   });
 }
 
-function filterData (data, $form) {
-  const $inputsSeleted = $form.querySelectorAll('input:checked');
-  const $inputsAll = $form.querySelectorAll('input[name*=all]');
+function filterData(data, conditions) {
+  // const $inputsSeleted = $form.querySelectorAll('input:checked');
+  // const $inputsAll = $form.querySelectorAll('input[name*=all]');
   let filteredData = [...data];
-  let conditions = {};
-  
-  $inputsSeleted.forEach(item => {
-    const name = item.name;
-    const value = item.value.split(',');
+  // let conditions = {};
 
-    if ( conditions[name] ) {
-      const array = [...value, ...conditions[name]];
-      const min = Math.min(...array);
-      const max = Math.max(...array);
-      
-      conditions[name] = [min, max];
-    } else {
-      conditions[name] = [...value];
-    }
-  });
+  // $inputsSeleted.forEach(item => {
+  //   const name = item.name;
+  //   const value = item.value.split(',');
 
-  for (let i = 0; i < $inputsAll.length; i++) {
-    const $inputAll = $inputsAll[i];
-    const key = $inputAll.name.replace('_all', '');
+  //   if ( conditions[name] ) {
+  //     const array = [...value, ...conditions[name]];
+  //     const min = Math.min(...array);
+  //     const max = Math.max(...array);
 
-    if ( !conditions[key] ) {
-      $inputAll.click();
-    } else {
-      const value = conditions[key];
+  //     conditions[name] = [min, max];
+  //   } else {
+  //     conditions[name] = [...value];
+  //   }
+  // });
 
-      filteredData = filteredData.filter(item => {
-        if ( item[key] >= value[0] && item[key] < value[1] ) {
-          return true
-        }
-        return false;
-      });
-    }
-  }
+  // for (let i = 0; i < $inputsAll.length; i++) {
+  //   const $inputAll = $inputsAll[i];
+  //   const key = $inputAll.name.replace('_all', '');
+
+  //   if ( !conditions[key] ) {
+  //     $inputAll.click();
+  //   } else {
+  //     const value = conditions[key];
+
+  //     filteredData = filteredData.filter(item => {
+  //       if ( item[key] >= value[0] && item[key] < value[1] ) {
+  //         return true
+  //       }
+  //       return false;
+  //     });
+  //   }
+  // }
 
   return filteredData;
 }
@@ -106,52 +104,60 @@ const main = function () {
   const $filterBtn = document.querySelector('.filter .btn-search');
   const $listTable = document.querySelector('.list table tbody');
 
-  function onClickBtnFilter () {
-    const filteredData = filterData(datas, $filterForm);
+  let conditions = { x: [], y: [], sales: [] };
+
+  function onClickBtnFilter() {
+    const filteredData = filterData(datas);
     renderList(filteredData, $listTable);
   }
 
-  function onClickInput (e) {
+  function onClickInput(e) {
     const $target = e.currentTarget;
     const name = $target.name;
 
-    const $inputs = $filterList.querySelectorAll(`input[name="${name}"]:not([name*="all"])`);
-    const $inputsSeleted = $filterList.querySelectorAll(`input[name="${name}"]:checked`);
-    const $inputsAll = $filterList.querySelector(`input[name="${name}_all"]`);
+    const value = $target.value.split(',');
 
-    $inputsAll.checked = $inputsSeleted.length == $inputs.length ? true : false;
+    if ($target.checked) {
+      conditions[name] = [...conditions[name], ...value];
+    } else {
+      ////
+    }
+
+    console.log(conditions);
+
+    // const $inputs = $filterList.querySelectorAll(`input[name="${name}"]:not([name*="all"])`);
+    // const $inputsSeleted = $filterList.querySelectorAll(`input[name="${name}"]:checked`);
+    // const $inputsAll = $filterList.querySelector(`input[name="${name}_all"]`);
+
+    // $inputsAll.checked = $inputsSeleted.length == $inputs.length ? true : false;
   }
 
-  function onClickInputAll (e) {
+  function onClickInputAll(e) {
     const $target = e.currentTarget;
     const name = $target.name.replace('_all', '');
 
     const $inputs = $filterList.querySelectorAll(`input[name="${name}"]:not([name*="all"])`);
-    $inputs.forEach(item => item.checked = $target.checked); 
+    $inputs.forEach((item) => (item.checked = $target.checked));
   }
 
   renderFilter(relation, $filterList);
 
   const $inputs = $filterList.querySelectorAll('input:not([name*=all])');
   const $inputsAll = $filterList.querySelectorAll('input[name*=all]');
-  $inputs.forEach(item => item.addEventListener('click', onClickInput))
-  $inputsAll.forEach(item => item.addEventListener('click', onClickInputAll));
+  $inputs.forEach((item) => item.addEventListener('click', onClickInput));
+  // $inputsAll.forEach((item) => item.addEventListener('click', onClickInputAll));
   $filterBtn.addEventListener('click', onClickBtnFilter);
   $filterBtn.click();
-}
+};
 window.addEventListener('load', main);
-
-
-// onClick 이벤트들도 빼는게 좋은지
-// $inputsAll 이런 애들은 한번만 선언하고 넘겨주는게 좋은지
 
 // * 리뷰
 // 초기 설정값 변경하고자 하면 -- 하면 전체가 클릭될 필요가 없지
 // 전체 일때는 나머지가 해제 되게끔
-// input의 체크될때마다 data를 따로 
+// input의 체크될때마다 data를 따로
 // - 랑 + infinity 로 퉁
 // all 따로 갖고 있지 않음 -- input cheked 가 아닌 all이 아닌것들로 / 하나로 해결하게끔
-// 파라미터로 돔 말고, conditions 를 보내고 가져와서 돔에 뿌려주는거는 다르게 
+// 파라미터로 돔 말고, conditions 를 보내고 가져와서 돔에 뿌려주는거는 다르게
 // inputAll 을 안 쓰는 방향으로
 // renderFilte string 값만 return 되게 해서 innerHtml 을 안에서
 // dom 을 가져가지 않도록
@@ -159,4 +165,4 @@ window.addEventListener('load', main);
 // 검색은 전체가 되게끔이 아니라 위의 상태값 그대로
 // _all 안쓰면 안생기게
 // hasOwnPropertys -> if ( values )
-// forEach -> 
+// forEach ->
